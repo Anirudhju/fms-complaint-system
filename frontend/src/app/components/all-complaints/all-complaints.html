@@ -1,0 +1,58 @@
+<app-navbar></app-navbar>
+
+<div class="complaints-container">
+  <h2>All Complaints</h2>
+
+  <!-- No Complaints Message -->
+  <div *ngIf="complaints.length === 0" class="no-complaints">
+    No complaints found in the system.
+  </div>
+
+  <!-- Complaints Table -->
+  <table *ngIf="complaints.length > 0">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Department</th>
+        <th>Created By</th>
+        <th>Status</th>
+        <th>Created At</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr
+        *ngFor="let complaint of complaints; let i = index"
+        class="clickable-row"
+        (click)="goToDetails(complaint.id)"
+      >
+        <td>{{ i + 1 }}</td>
+        <td>{{ complaint.title }}</td>
+
+        <!-- Shortened Description -->
+        <td [title]="complaint.description">
+          {{ complaint.description }}
+        </td>
+
+        <td>{{ complaint.department_name }}</td>
+        <td>{{ complaint.created_by_name }}</td>
+
+        <!-- Status Badge -->
+        <td>
+          <span
+            class="status-badge"
+            [class]="'status-' + complaint.status.toLowerCase().replace(' ', '-')"
+          >
+            {{ complaint.status }}
+          </span>
+        </td>
+
+        <td>
+          {{ complaint.created_at | date: 'dd/MM/yy, hh:mm a' }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

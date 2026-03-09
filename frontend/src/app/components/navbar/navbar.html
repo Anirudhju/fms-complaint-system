@@ -1,0 +1,40 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <h2>FMS - Complaint System</h2>
+  </div>
+
+  <div class="navbar-menu" *ngIf="user">
+    <span class="user-info">
+      <!-- ADMIN (unchanged) -->
+      <ng-container *ngIf="user.role === 'admin'"> {{ user.name }} ({{ user.role }}) </ng-container>
+
+      <!-- STAFF (show department) -->
+      <ng-container *ngIf="user.role === 'staff'">
+        {{ user.name }} ({{ user.department_name }})
+      </ng-container>
+
+      <!-- USER (only name) -->
+      <ng-container *ngIf="user.role === 'user'">
+        {{ user.name }}
+      </ng-container>
+    </span>
+
+    <div *ngIf="user.role === 'user'">
+      <a routerLink="/my-complaints" class="nav-link">My Complaints</a>
+      <a routerLink="/new-complaint" class="nav-link">New Complaint</a>
+    </div>
+
+    <div *ngIf="user.role === 'staff'">
+      <a routerLink="/department-complaints" class="nav-link">Department Panel</a>
+    </div>
+
+    <div *ngIf="user.role === 'admin'">
+      <a routerLink="/all-complaints" class="nav-link">All Complaints</a>
+      <a routerLink="/departments" class="nav-link">Departments</a>
+      <a routerLink="/create-user" class="nav-link">Create User</a>
+      <a routerLink="/manage-users" class="nav-link">Manage Users</a>
+    </div>
+
+    <button (click)="logout()" class="logout-btn">Logout</button>
+  </div>
+</nav>

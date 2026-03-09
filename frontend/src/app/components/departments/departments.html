@@ -1,0 +1,52 @@
+<app-navbar></app-navbar>
+
+<div class="departments-container">
+  <h2>Manage Departments</h2>
+
+  <div class="create-department-box">
+    <h3>Create New Department</h3>
+
+    <div class="success-message" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="form-inline">
+      <input
+        type="text"
+        [(ngModel)]="newDepartmentName"
+        placeholder="Department Name"
+        (keyup.enter)="createDepartment()"
+      />
+      <button (click)="createDepartment()" class="btn-primary">Create</button>
+    </div>
+  </div>
+
+  <div class="departments-list">
+    <h3>Existing Departments</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Department Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dept of departments; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ dept.name }}</td>
+          <td>
+            <button (click)="deleteDepartment(dept.id, dept.name)" class="btn-delete">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<app-navbar></app-navbar>
+
+<div class="users-container">
+  <h2>Manage Users</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Department</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let u of users; let i = index">
+        <td>{{ i + 1 }}</td>
+
+        <td>
+          {{ u.name }}
+          <span *ngIf="u.id === currentUserId" class="self-label">(You)</span>
+        </td>
+
+        <td>{{ u.email }}</td>
+
+        <!-- ROLE DROPDOWN -->
+        <td>
+          <select
+            (change)="updateRole(u.id, $any($event.target).value)"
+            [value]="u.role"
+            [disabled]="u.id === currentUserId"
+          >
+            <option value="user">User</option>
+            <option value="staff">Staff</option>
+            <option value="admin">Admin</option>
+          </select>
+        </td>
+
+        <!-- DEPARTMENT DROPDOWN -->
+        <td>
+          <select
+            [(ngModel)]="u.department_id"
+            (ngModelChange)="updateDepartment(u.id, $event)"
+            [disabled]="u.role !== 'staff'"
+          >
+            <option [ngValue]="null">None</option>
+
+            <option *ngFor="let dept of departments" [ngValue]="dept.id">
+              {{ dept.name }}
+            </option>
+          </select>
+
+          <!-- <span *ngIf="u.role !== 'staff'" class="not-applicable"> N/A </span> -->
+        </td>
+
+        <!-- STATUS -->
+        <td>
+          <span *ngIf="u.is_active" class="active-badge"> Active </span>
+
+          <span *ngIf="!u.is_active" class="inactive-badge"> Inactive </span>
+        </td>
+
+        <!-- ACTION BUTTONS -->
+        <td>
+          <!-- Deactivate -->
+          <button
+            *ngIf="u.is_active && u.role !== 'admin' && u.id !== currentUserId"
+            (click)="deactivate(u.id)"
+            class="danger-btn"
+          >
+            Deactivate
+          </button>
+
+          <!-- Restore -->
+          <button *ngIf="!u.is_active" (click)="restore(u.id)" class="success-btn">Restore</button>
+
+          <!-- No Action Case -->
+          <!-- <span *ngIf="u.role === 'admin' && u.id !== currentUserId" class="protected-label">
+            Protected
+          </span> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

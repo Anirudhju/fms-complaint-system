@@ -1,0 +1,96 @@
+.feedback-wrapper {
+  max-width: 720px;
+  margin: 30px auto;
+  padding: 10px 20px;
+}
+
+.header {
+  margin-bottom: 15px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.meta {
+  color: #6b7280;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.section {
+  margin-bottom: 18px;
+}
+
+.section-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.hint {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 10px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+.readonly-box {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 10px;
+  border-radius: 4px;
+  white-space: pre-wrap;
+}
+
+.info {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 7px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.primary {
+  background: #2563eb;
+  color: white;
+}
+
+.secondary {
+  background: #6b7280;
+  color: white;
+}
+
+.message {
+  margin-top: 10px;
+  color: #16a34a;
+  font-size: 14px;
+}

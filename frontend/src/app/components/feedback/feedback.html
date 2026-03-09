@@ -1,0 +1,56 @@
+<app-navbar></app-navbar>
+
+<div class="feedback-wrapper" *ngIf="!loading">
+  <!-- HEADER -->
+  <div class="header">
+    <h2>Complaint Feedback</h2>
+    <div class="meta"></div>
+  </div>
+
+  <div class="panel">
+    <!-- VIEW MODE -->
+    <ng-container *ngIf="viewMode">
+      <div class="section">
+        <!-- <div class="section-title">Submitted Feedback</div> -->
+
+        <div class="readonly-box">
+          {{ feedbackData?.feedback_text }}
+        </div>
+
+        <div class="info">
+          Submitted by {{ feedbackData?.user_name }} on
+          {{ feedbackData?.created_at | date: 'mediumDate' }} at
+          {{ feedbackData?.created_at | date: 'shortTime' }}
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn secondary" (click)="goBack()">Back</button>
+      </div>
+    </ng-container>
+
+    <!-- SUBMIT MODE -->
+    <ng-container *ngIf="!viewMode">
+      <div class="section">
+        <div class="section-title">Resolution Confirmation</div>
+        <!-- <div class="hint">
+          The complaint has been marked resolved. Please record your remarks before closing the
+          case.
+        </div> -->
+
+        <textarea
+          [(ngModel)]="feedbackText"
+          rows="6"
+          placeholder="Write your remarks about the resolution..."
+        ></textarea>
+      </div>
+
+      <div class="actions">
+        <button class="btn secondary" (click)="goBack()">Back</button>
+        <button class="btn primary" (click)="submit()">Submit Feedback</button>
+      </div>
+
+      <div class="message" *ngIf="message">{{ message }}</div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+<app-navbar></app-navbar>
+
+<div class="details-container" *ngIf="complaint">
+  <div class="header-row">
+    <div class="header-left">
+      <h2>{{ complaint.title }}</h2>
+
+      <p><strong>Department:</strong> {{ complaint.department_name }}</p>
+      <p><strong>Created By:</strong> {{ complaint.created_by_name }}</p>
+      <p>
+        <strong>Created At:</strong>
+        {{ complaint.created_at | date: 'mediumDate' }}
+      </p>
+
+      <p>
+        <strong>Status:</strong>
+        <span
+          class="status-badge"
+          [class]="'status-' + complaint.status.toLowerCase().replace(' ', '-')"
+        >
+          {{ complaint.status }}
+        </span>
+      </p>
+    </div>
+
+    <div
+      class="header-right"
+      *ngIf="
+        (user.role === 'admin' || user.role === 'staff') &&
+        !(complaint.status === 'Closed' && user.role === 'staff')
+      "
+    >
+      <select [(ngModel)]="tempStatus" (change)="openStatusBox($event)">
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Resolved">Resolved</option>
+        <option *ngIf="user.role === 'admin'" value="Closed">Closed</option>
+      </select>
+    </div>
+  </div>
+
+  <div *ngIf="showStatusBox">
+    <p>
+      Changing from
+      <strong>{{ complaint.status }}</strong>
+      to
+      <strong>{{ selectedStatus }}</strong>
+    </p>
+
+    <textarea [(ngModel)]="remarkText" rows="4" placeholder="Enter remark..."></textarea>
+
+    <div>
+      <button (click)="cancelStatusChange()">Cancel</button>
+      <button (click)="confirmStatusChange()">Update</button>
+    </div>
+  </div>
+
+  <hr />
+
+  <h3>Description</h3>
+  <p>{{ complaint.description }}</p>
+
+  <!-- Image Divider + Section (only if image exists) -->
+  <ng-container *ngIf="complaint?.image_path && complaint.image_path !== ''">
+    <hr />
+
+    <div class="image-section">
+      <button class="view-image-btn" (click)="openImage()">View Attached Image</button>
+    </div>
+  </ng-container>
+
+  <div class="image-overlay" *ngIf="showImage" (click)="closeImage()">
+    <img
+      [src]="'http://localhost:3000/' + complaint.image_path"
+      class="fullscreen-image"
+      (click)="$event.stopPropagation()"
+    />
+  </div>
+
+  <hr />
+
+  <h3>History</h3>
+
+  <div *ngFor="let log of logs" class="history-entry">
+    <p>
+      <strong>{{ log.old_status }} → {{ log.new_status }}</strong>
+    </p>
+    <p>
+      By: {{ log.changed_by_name }} |
+      {{ log.changed_at | date: 'dd/MM/yy, hh:mm a' }}
+    </p>
+    <p>{{ log.remark }}</p>
+  </div>
+
+  <!-- FEEDBACK SECTION -->
+  <hr />
+
+  <div *ngIf="feedback">
+    <h3>User Feedback</h3>
+    <p>"{{ feedback.feedback_text }}"</p>
+  </div>
+
+  <div *ngIf="canGiveFeedback()">
+    <h3>Submit Feedback</h3>
+
+    <textarea [(ngModel)]="feedbackText" rows="4" placeholder="Write your feedback..."></textarea>
+
+    <div style="margin-top: 10px">
+      <button class="btn-primary" (click)="submitFeedback()">Submit</button>
+    </div>
+  </div>
+</div>
